@@ -32,6 +32,7 @@ public class WeaponSwitch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //this one is useless, kareli er prosto kanchel GetReady() method@, u es depqum verevi gracn el kara chlini 
         foreach (GameObject obj in weapon)
             obj.SetActive(false);
     }

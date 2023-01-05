@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PL_DropObj : MonoBehaviour
+public class PL_ThrowObj : MonoBehaviour
 {
     public float BulletLife = 3f;
     public float Damage = 25f;

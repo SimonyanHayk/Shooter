@@ -9,11 +9,11 @@ public class WeaponUnlock : MonoBehaviour
 
     #region unlock
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
         foreach (GameObject obj in weaponUnlock)
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if (other.tag == "Player")
             {
                 if (weaponUnlock.IndexOf(obj) == 0)
                 {
@@ -21,7 +21,7 @@ public class WeaponUnlock : MonoBehaviour
                     {
                         weaponSwitch.unlock1 = true;
                         Destroy(weaponUnlock[0]);
-                    }                    
+                    }                        
                 }
 
                 if (weaponUnlock.IndexOf(obj) == 1)
@@ -30,7 +30,8 @@ public class WeaponUnlock : MonoBehaviour
                     {
                         weaponSwitch.unlock2 = true;
                         Destroy(weaponUnlock[1]);
-                    }                        
+                    }
+                                  
                 }
 
                 if (weaponUnlock.IndexOf(obj) == 2)

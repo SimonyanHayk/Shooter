@@ -4,74 +4,14 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public bool pickedUp;
-    
     public GameObject holdPoint;
-    public Camera mainCam;
+    public ItemData itemData;
 
     #region Item
 
     public void Update()
     {
-        //ItemMain();
-    }
-
-    public void ItemMain(ItemController itemController)
-    {        
-        //itemController = FindObjectOfType<GameObject>().GetComponent<ItemController>();
-
-        if (itemController.item)
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                RaycastHit See;
-                if (Physics.Raycast(mainCam.transform.position, mainCam.transform.forward, out See, itemController.canPickUpRange))
-                {
-                    if (itemController != null)
-                    {
-                        if (itemController.item)
-                        {
-                            Pickup();
-                            pickedUp = true;
-                        }
-                    }
-                }
-
-                if (pickedUp)
-                    MoveItem(itemController);
-
-                if (Input.GetKeyUp(KeyCode.F))
-                    DropItem();
-
-            }
-        }
         
-    }
-
-    public void Pickup()
-    {
-        gameObject.transform.position = holdPoint.transform.position;
-        gameObject.GetComponent<Rigidbody>().drag = 10;
-        gameObject.GetComponent<Rigidbody>().useGravity = false;
-        gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
-    }
-
-    public void MoveItem(ItemController itemController)
-    {
-        if (pickedUp)
-        {
-            if (Vector3.Distance(holdPoint.transform.position, gameObject.transform.position) > 0.1f)
-            {
-                Vector3 moveDirection = (holdPoint.transform.position - gameObject.transform.position);
-                gameObject.GetComponent<Rigidbody>().AddForce(moveDirection * 150f);
-            }
-        }
-    }
-
-    private void DropItem()
-    {
-        gameObject.GetComponent<Rigidbody>().useGravity = true;
-        pickedUp = false;
     }
 
     #endregion
@@ -80,11 +20,11 @@ public class ItemManager : MonoBehaviour
 
     public void AddAmmo(WeaponManager weaponManager, ItemController itemController)
     {
-        if (itemController.bullet_1)
+        if (itemData.bullet_1)
         {
             if (weaponManager.bullet_1count < weaponManager.bullet_1MaxCount)
             {
-                weaponManager.bullet_1count += itemController.addAmmoCount;
+                weaponManager.bullet_1count += itemData.addAmmoCount;
 
                 if (weaponManager.bullet_1count >= weaponManager.bullet_1MaxCount)
                 {
@@ -95,11 +35,11 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        if (itemController.bullet_2)
+        if (itemData.bullet_2)
         {
             if (weaponManager.bullet_2count < weaponManager.bullet_2MaxCount)
             {
-                weaponManager.bullet_2count += itemController.addAmmoCount;
+                weaponManager.bullet_2count += itemData.addAmmoCount;
 
                 if (weaponManager.bullet_2count >= weaponManager.bullet_2MaxCount)
                 {
@@ -110,11 +50,11 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        if (itemController.bullet_3)
+        if (itemData.bullet_3)
         {
             if (weaponManager.bullet_3count < weaponManager.bullet_3MaxCount)
             {
-                weaponManager.bullet_3count += itemController.addAmmoCount;
+                weaponManager.bullet_3count += itemData.addAmmoCount;
 
                 if (weaponManager.bullet_3count >= weaponManager.bullet_3MaxCount)
                 {
@@ -125,11 +65,11 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        if (itemController.bullet_4)
+        if (itemData.bullet_4)
         {
             if (weaponManager.bullet_4count < weaponManager.bullet_4MaxCount)
             {
-                weaponManager.bullet_4count += itemController.addAmmoCount;
+                weaponManager.bullet_4count += itemData.addAmmoCount;
 
                 if (weaponManager.bullet_4count >= weaponManager.bullet_4MaxCount)
                 {
@@ -140,11 +80,11 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        if (itemController.bullet_5)
+        if (itemData.bullet_5)
         {
             if (weaponManager.bullet_5count < weaponManager.bullet_5MaxCount)
             {
-                weaponManager.bullet_5count += itemController.addAmmoCount;
+                weaponManager.bullet_5count += itemData.addAmmoCount;
 
                 if (weaponManager.bullet_5count >= weaponManager.bullet_5MaxCount)
                 {
@@ -155,11 +95,11 @@ public class ItemManager : MonoBehaviour
             }
         }
 
-        if (itemController.bullet_6)
+        if (itemData.bullet_6)
         {
             if (weaponManager.bullet_6count < weaponManager.bullet_6MaxCount)
             {
-                weaponManager.bullet_6count += itemController.addAmmoCount;
+                weaponManager.bullet_6count += itemData.addAmmoCount;
 
                 if (weaponManager.bullet_6count >= weaponManager.bullet_6MaxCount)
                 {
@@ -178,27 +118,27 @@ public class ItemManager : MonoBehaviour
     {
         if (PlayerHealth.health >= PlayerHealth.healthMax && PlayerHealth.extraHealth < PlayerHealth.extraHealthMax)
         {
-            PlayerHealth.extraHealth += itemController.extraHealingAmount;
+            PlayerHealth.extraHealth += itemData.extraHealingAmount;
             Destroy(itemController.gameObject);
         }
-        else if (PlayerHealth.health <= itemController.healingAmount + itemController.extraHealingAmount)
+        else if (PlayerHealth.health <= itemData.healingAmount + itemData.extraHealingAmount)
         {
-            PlayerHealth.health += itemController.healingAmount + itemController.extraHealingAmount;
+            PlayerHealth.health += itemData.healingAmount + itemData.extraHealingAmount;
             Destroy(itemController.gameObject);
         }
-        else if (PlayerHealth.extraHealth < PlayerHealth.extraHealthMax && PlayerHealth.health >= PlayerHealth.healthMax - itemController.extraHealingAmount ||
-            PlayerHealth.extraHealth < PlayerHealth.extraHealthMax && PlayerHealth.health >= PlayerHealth.healthMax - itemController.healingAmount)
+        else if (PlayerHealth.extraHealth < PlayerHealth.extraHealthMax && PlayerHealth.health >= PlayerHealth.healthMax - itemData.extraHealingAmount ||
+            PlayerHealth.extraHealth < PlayerHealth.extraHealthMax && PlayerHealth.health >= PlayerHealth.healthMax - itemData.healingAmount)
         {
-            PlayerHealth.health += itemController.healingAmount;
+            PlayerHealth.health += itemData.healingAmount;
 
             if (PlayerHealth.health <= PlayerHealth.healthMax)
             {
-                PlayerHealth.extraHealth += itemController.extraHealingAmount - PlayerHealth.healthMax + PlayerHealth.health;
+                PlayerHealth.extraHealth += itemData.extraHealingAmount - PlayerHealth.healthMax + PlayerHealth.health;
                 PlayerHealth.health += PlayerHealth.healthMax - PlayerHealth.health;
             }
             else if (PlayerHealth.health >= PlayerHealth.healthMax)
             {
-                PlayerHealth.extraHealth += itemController.extraHealingAmount;
+                PlayerHealth.extraHealth += itemData.extraHealingAmount;
             }
 
             Destroy(itemController.gameObject);
@@ -223,27 +163,27 @@ public class ItemManager : MonoBehaviour
     {
         if (PlayerHealth.armor >= PlayerHealth.armorMax && PlayerHealth.extraArmor < PlayerHealth.extraArmorMax)
         {
-            PlayerHealth.extraArmor += itemController.extraArmorAmount;
+            PlayerHealth.extraArmor += itemData.extraArmorAmount;
             Destroy(itemController.gameObject);
         }
-        else if (PlayerHealth.armor < itemController.addArmorAmount + itemController.extraArmorAmount)
+        else if (PlayerHealth.armor < itemData.addArmorAmount + itemData.extraArmorAmount)
         {
-            PlayerHealth.armor += itemController.addArmorAmount + itemController.extraArmorAmount;
+            PlayerHealth.armor += itemData.addArmorAmount + itemData.extraArmorAmount;
             Destroy(itemController.gameObject);
         }
-        else if (PlayerHealth.extraArmor < PlayerHealth.extraArmorMax && PlayerHealth.armor >= PlayerHealth.armorMax - itemController.extraArmorAmount ||
-            PlayerHealth.extraArmor < PlayerHealth.extraArmorMax && PlayerHealth.armor >= PlayerHealth.armorMax - itemController.addArmorAmount)
+        else if (PlayerHealth.extraArmor < PlayerHealth.extraArmorMax && PlayerHealth.armor >= PlayerHealth.armorMax - itemData.extraArmorAmount ||
+            PlayerHealth.extraArmor < PlayerHealth.extraArmorMax && PlayerHealth.armor >= PlayerHealth.armorMax - itemData.addArmorAmount)
         {
-            PlayerHealth.armor += itemController.addArmorAmount;
+            PlayerHealth.armor += itemData.addArmorAmount;
 
             if (PlayerHealth.armor <= PlayerHealth.armorMax)
             {
-                PlayerHealth.extraArmor += itemController.extraArmorAmount - PlayerHealth.armorMax + PlayerHealth.armor;
+                PlayerHealth.extraArmor += itemData.extraArmorAmount - PlayerHealth.armorMax + PlayerHealth.armor;
                 PlayerHealth.armor += PlayerHealth.armorMax - PlayerHealth.armor;
             }
             else if (PlayerHealth.armor >= PlayerHealth.armorMax)
             {
-                PlayerHealth.extraArmor += itemController.extraArmorAmount;
+                PlayerHealth.extraArmor += itemData.extraArmorAmount;
             }
             Destroy(itemController.gameObject);
         }

@@ -5,8 +5,8 @@ using TMPro;
 
 public class UI_Aim : MonoBehaviour
 {
-    WeaponManager weponManager;
-    Weapon wepon;
+    public WeaponManager weponManager;
+    public Weapon weapon;
 
     public TMP_Text bullet1Count;
     public TMP_Text bullet2Count;
@@ -24,9 +24,6 @@ public class UI_Aim : MonoBehaviour
         bullet4Count.enabled = false;
         bullet5Count.enabled = false;
         bullet6Count.enabled = false;
-
-        weponManager = GameObject.FindWithTag("Manager").GetComponent<WeaponManager>();
-        wepon = GameObject.FindWithTag("Wepon").GetComponent<Weapon>();
     }
 
     // Update is called once per frame
@@ -39,8 +36,8 @@ public class UI_Aim : MonoBehaviour
         bullet5Count.text = weponManager.bullet_5count.ToString("F0");
         bullet6Count.text = weponManager.bullet_6count.ToString("F0");
 
-        if(!wepon.bullet_1 && !wepon.bullet_2 && !wepon.bullet_3
-                 && !wepon.bullet_4 && !wepon.bullet_5 && !wepon.bullet_6)
+        if(!weapon.bullet_1 && !weapon.bullet_2 && !weapon.bullet_3
+                 && !weapon.bullet_4 && !weapon.bullet_5 && !weapon.bullet_6)
         {
             bullet1Count.enabled = false;
             bullet2Count.enabled = false;
@@ -49,27 +46,27 @@ public class UI_Aim : MonoBehaviour
             bullet5Count.enabled = false;
             bullet6Count.enabled = false;
         }
-        else if (wepon.bullet_1)
+        else if (weapon.bullet_1)
         {
             bullet1Count.enabled = true;
         }
-        else if (wepon.bullet_2)
+        else if (weapon.bullet_2)
         {
             bullet2Count.enabled = true;
         }
-        else if (wepon.bullet_3)
+        else if (weapon.bullet_3)
         {
             bullet3Count.enabled = true;
         }
-        else if (wepon.bullet_4)
+        else if (weapon.bullet_4)
         {
             bullet4Count.enabled = true;
         }
-        else if (wepon.bullet_5)
+        else if (weapon.bullet_5)
         {
             bullet5Count.enabled = true;
         }
-        else if (wepon.bullet_6)
+        else if (weapon.bullet_6)
         {
             bullet6Count.enabled = true;
         }

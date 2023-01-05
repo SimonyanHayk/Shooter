@@ -14,6 +14,9 @@ public class EnemyManager : MonoBehaviour
     public bool HS_playerInAttackRange;    
     public bool HS_CanSeePlayer;
     public bool HS_alreadyAttacked;
+    private bool follow = false;
+
+    [SerializeField] Animator enemyAnimator;
 
     // Start is called before the first frame update
     public void Start()
@@ -28,12 +31,15 @@ public class EnemyManager : MonoBehaviour
 
     private void MainHitScan(Enemy enemy)
     {
-
         HS_playerInAttackRange = Physics.CheckSphere(enemy.EnemyObj.transform.position, enemy.HS_AttackRange, PlayerLayer);
 
         if (HS_CanSeePlayer && !HS_playerInAttackRange) enemy.ChasePlayer(this);
-        if (HS_CanSeePlayer && HS_playerInAttackRange) AttackPlayer(enemy);
-
+        if (HS_CanSeePlayer && HS_playerInAttackRange)
+        {
+            AttackPlayer(enemy);
+            follow = false;
+        }
+        
         if (enemy.HS_playerInSightRange)
         {
             Vector3 DirectionToPlayer = (PlayerTransform.position - enemy.EnemyObj.transform.position).normalized;
@@ -54,9 +60,18 @@ public class EnemyManager : MonoBehaviour
 
         if (HS_alreadyAttacked && HS_playerInAttackRange && enemy.HS_playerInSightRange && !HS_CanSeePlayer)
         {
+            follow = true;
+        }
+
+        if (follow)
+        {
+            HS_CanSeePlayer = true;
+            enemy.HS_playerInSightRange = true;
             enemy.ChasePlayer(this);
         }
     }
+
+    
 
     private void AttackPlayer(Enemy enemy)
     {
@@ -106,7 +121,11 @@ public class EnemyManager : MonoBehaviour
         PT_playerInAttackRange = Physics.CheckSphere(enemy.EnemyObj.transform.position, enemy.PT_AttackRange, PlayerLayer);
 
         if (PT_CanSeePlayer && !PT_playerInAttackRange) enemy.ChasePlayer(this);
-        if (PT_CanSeePlayer && PT_playerInAttackRange) PT_AttackPlayer(enemy);
+        if (PT_CanSeePlayer && PT_playerInAttackRange)
+        {
+            PT_AttackPlayer(enemy);
+            follow = false;
+        }
 
         if (enemy.PT_playerInSightRange)
         {
@@ -128,6 +147,13 @@ public class EnemyManager : MonoBehaviour
 
         if (PT_alreadyAttacked && PT_playerInAttackRange && enemy.PT_playerInSightRange && !PT_CanSeePlayer)
         {
+            follow = true;
+        }
+
+        if (follow)
+        {
+            enemy.PT_playerInSightRange = true;
+            PT_CanSeePlayer = true;
             enemy.ChasePlayer(this);
         }
     }
